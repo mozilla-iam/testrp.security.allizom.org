@@ -1,4 +1,4 @@
-.btn-signing {
+.btn-signin {
     border: none;
     border-radius: .25em;
     color: white;
@@ -14,51 +14,51 @@
     -webkit-transition-duration: 0.4s; /* Safari hover */
 }
 
-.btn-signing-lg {
+.btn-signin-lg {
     font-size: 1.5em;
     padding: .6em 1.3333em;
 }
 
-.btn-signing-shadow {
+.btn-signin-shadow {
     box-shadow: 0 .25em .5em 0 rgba(0,0,0,0.2), 0 .125em .3125em 0 rgba(0,0,0,0.19);
 }
 
-.btn-signing-wide {
+.btn-signin-wide {
     width: 18em;  /* 288 px */
 }
 
-.btn-signing-charcoal,
-.btn-signing-charcoal.disabled:hover,
-.btn-signing-charcoal[disabled]:hover {
+.btn-signin-charcoal,
+.btn-signin-charcoal.disabled:hover,
+.btn-signin-charcoal[disabled]:hover {
     background-color: #4D4E53; /* Charcoal */
 }
 
-.btn-signing-charcoal:hover {
+.btn-signin-charcoal:hover {
     background-color: #7A7C85; /* Charcoal - Light */
 }
 
-.btn-signing-red,
-.btn-signing-red.disabled:hover,
-.btn-signing-red[disabled]:hover {
+.btn-signin-red,
+.btn-signin-red.disabled:hover,
+.btn-signin-red[disabled]:hover {
     background-color: #C13832; /* Red */
 }
 
-.btn-signing-red:hover {
+.btn-signin-red:hover {
     background-color: #EA3B28 /* Red - Light */
 }
 
-.btn-signing-sandstone,
-.btn-signing-sandstone.disabled:hover,
-.btn-signing-sandstone[disabled]:hover {
+.btn-signin-sandstone,
+.btn-signin-sandstone.disabled:hover,
+.btn-signin-sandstone[disabled]:hover {
     background-color: #D7D3C8; /* Sand */
     color: black;
 }
 
-.btn-signing-sandstone:hover {
+.btn-signin-sandstone:hover {
     background-color: #F6F4EC; /* Sand - Light */
 }
 
-.btn-signing.disabled, .btn-signing[disabled] {
+.btn-signin.disabled, .btn-signin[disabled] {
     box-shadow: none;
     cursor: not-allowed;
     opacity: .65;
