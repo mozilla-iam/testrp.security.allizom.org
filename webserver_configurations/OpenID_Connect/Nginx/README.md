@@ -5,6 +5,7 @@ It let you easily front any Location with an OIDC login page.
 
 Sources and package releases for most recent versions of lua-resty-openidc module can be found at:
 https://github.com/pingidentity/mod_auth_openidc and https://github.com/mozilla-iam/lua-resty-openidc
+We're currently using the later (https://github.com/mozilla-iam/lua-resty-openidc).
 
 ## Install
 
@@ -23,6 +24,13 @@ $ sudo luarocks install lua-resty-openidc
 # For Ubuntu
 $ sudo apt-get install luarocks
 $ sudo luarocks install lua-resty-openidc
+```
+
+**Note**: In order to use our fork (https://github.com/mozilla-iam/lua-resty-openidc - you'll need it to use our configs) without building a Lua rock:
+
+```
+$ wget https://github.com/mozilla-iam/lua-resty-openidc/blob/master/lib/resty/openidc.lua
+$ sudo mv openidc.lua /usr/local/openresty/site/lualib/resty/
 ```
 
 ### Configure HTTPS
