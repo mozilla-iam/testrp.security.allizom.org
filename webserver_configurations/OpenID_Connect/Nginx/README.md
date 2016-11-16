@@ -38,6 +38,14 @@ $ sudo mv openidc.lua /usr/local/openresty/site/lualib/resty/
 Ensure that your webserver uses HTTPS and a [valid certificate] (https://letsencrypt.org/ "Let's Encrypt").
 It's also a good time to follow the [Web Security Guidelines] (https://wiki.mozilla.org/Security/Guidelines/Web_Security) and the [Service Side TLS Guidelines] (https://wiki.mozilla.org/Security/Server_Side_TLS) if you haven't.
 
+**Note**: we're using letsencrypt in this setup, which uses a centralized well-known directory. This allows to renew all domains with a set of similar commands per domain or group of domains:
+
+```
+$ certbot certonly --webroot -w /var/www/well-known -d "testrp.security.allizom.org"
+$ certbot certonly --webroot -w /var/www/well-known -d "social-ldap-pwless.testrp.security.allizom.org"
+...
+```
+
 ### Configure Nginx (OpenResty)
 
 By default, your configuration will live in `/usr/local/openresty/nginx/conf/`
