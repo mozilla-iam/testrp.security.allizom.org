@@ -46,6 +46,11 @@ $ certbot certonly --webroot -w /var/www/well-known -d "social-ldap-pwless.testr
 ...
 ```
 
+You can then auto-renew with a crontab such as (every sunday, it checks and renew if needed):
+```
+0 0 * * 0    certbot renew --quiet --no-self-upgrade
+```
+
 ### Configure Nginx (OpenResty)
 
 By default, your configuration will live in `/usr/local/openresty/nginx/conf/`
