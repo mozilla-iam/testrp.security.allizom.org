@@ -1,0 +1,14 @@
+{
+  "name": "testrp.security.allizom.org",
+  "description": "Reference/demos for Mozilla IAM",
+  "repository": {
+    "url": "https://github.com/mozilla-iam/testrp.security.allizom.org",
+    "license": "MPL2"
+  },
+  "keywords": [
+    "OIDC",
+    "SAML",
+    "IdP",
+    "IAM"
+  ]
+}
