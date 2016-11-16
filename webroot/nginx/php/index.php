@@ -21,10 +21,10 @@
 <?php
                 echo "Logged in as: ".$_SERVER['HTTP_REMOTE_USER'].", also known as ".$_SERVER['HTTP_OIDC_CLAIM_ID_TOKEN_NAME']." ";
 ?>
-            (<a href="/ldap_pwless/logout">Logout</a>)<br/>
+            (<a href="/logout">Logout</a>) (<a href="https://testrp.security.allizom.org">Go back to testrp.security.allizom.org / main page</a>)<br/>
             Your id_token (and session) will expire on: <?php echo date("d F Y H:i:s", $_SERVER['HTTP_OIDC_CLAIM_ID_TOKEN_EXP']); ?> UTC
-            </br>
-            </br>
+            <br/>
+            <br/>
 
             <p>
             This test setup and complete configuration can be found at: <a href="https://github.com/mozilla-iam/testrp.security.allizom.org">https://github.com/mozilla-iam/testrp.security.allizom.org</a>
@@ -35,7 +35,7 @@
 <?php
             foreach($_SERVER as $key => $value) {
                     if (substr($key, 0, 5) === "HTTP_") {
-                        echo $key.":".$value."</br>";
+                        echo $key.":".$value."<br/>";
                     }
             }
 ?>

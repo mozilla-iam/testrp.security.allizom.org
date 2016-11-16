@@ -4,48 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="media/css/sandstone.css" media="all">
-    <style>
-.button {
-	border: none;
-	border-radius: 4px;
-	color: white;
-	padding: 10px 20px;
-	text-align: center;
-	text-decoration: none;
-	display: inline-block;
-	font-family: "Open Sans";
-	font-size: 1em;
-	margin: 4px 2px;
-	cursor: pointer;
-	-webkit-transition-duration: 0.4s; /* Safari hover */
-	transition-duration: 0.4s; /* hover timer */
-}
-.button-shadow {
-	box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 2px 5px 0 rgba(0,0,0,0.19);
-}
-.button-red {
-	background-color: #C13832; /* Red */
-}
-.button-red:hover {
-	background-color: #EA3B28 /* Red - Light */
-}
-.button-sand {
-	background-color: #D7D3C8; /* Sand */
-	color: black;
-}
-.button-sand:hover {
-	background-color: #F6F4EC; /* Sand - Light */
-}
-.button-charcoal {
-	background-color: #4D4E53; /* Charcoal*/
-}
-.button-charcoal:hover {
-	background-color: #7A7C85; /* Charcoal - Light*/
-}
-.button-wide {
-	width: 300px;
-}
-    </style>
+    <link rel="stylesheet" href="media/css/signin.css" media="all">
     <title>Mozilla IAM | Authentication demos & references</title>
   </head>
   <body class="sand">
@@ -61,15 +20,15 @@
       <ul>
         <li>The Mozilla IAM project: <a href="https://mana.mozilla.org/wiki/display/SECURITY/IAM">https://mana.mozilla.org/wiki/display/SECURITY/IAM</a></li>
         <li>How OpenID Connect works for authentication: <a href="https://wiki.mozilla.org/Security/Guidelines/OpenID_Connect">https://wiki.mozilla.org/Security/Guidelines/OpenID_Connect</a></li>
-        <li>How this test site is setup (with code, config, etc.): <a href="http://github.com/mozilla-iam/testrp.security.allizom.org/">http://github.com/mozilla-iam/testrp.security.allizom.org/</a></li>
+        <li>How this test site is setup (with code, config, etc.): <a href="https://github.com/mozilla-iam/testrp.security.allizom.org/">https://github.com/mozilla-iam/testrp.security.allizom.org/</a></li>
         <li>How to request tokens for authenticating your own web applications with Mozilla: <a href="https://mana.mozilla.org/wiki/display/SECURITY/SSO+Request+Form">https://mana.mozilla.org/wiki/display/SECURITY/SSO+Request+Form</a></li>
       </ul>
       <p>Please select an option to test authentication with any of the following services:</p>
       <ul>
-        <li>Nginx+Lua with Social, LDAP and Passwordless options: <a href="/social_ldap_pwless/"><button class="button button-charcoal button-shadow">Sign In</button></a></li>
-        <li>Nginx+Lua with LDAP and Passwordless options: <a href="/ldap_pwless/"><button class="button button-charcoal button-shadow">Sign In</button></a></li>
-        <li>Nginx+Lua with Social and Passwordless options: <a href="/social_pwless/"><button class="button button-charcoal button-shadow">Sign In</button></a></li>
-        <li>(CURRENTLY UNDER MAINTENANCE) Apache with Social, LDAP and Passwordless options: <a href="/apache/social_ldap_pwless/"><button class="button button-charcoal button-shadow">Sign In</button></a></li>
+        <li>Nginx+Lua with Social, LDAP and Passwordless options: <a href="https://social-ldap-pwless.testrp.security.allizom.org"><button class="btn-auth0 btn-auth0-charcoal">Sign In</button></a></li>
+        <li>Nginx+Lua with LDAP and Passwordless options: <a href="https://ldap-pwless.testrp.security.allizom.org"><button class="btn-auth0 btn-auth0-charcoal">Sign In</button></a></li>
+        <li>Nginx+Lua with Social and Passwordless options: <a href="https://social-pwless.testrp.security.allizom.org"><button class="btn-auth0 btn-auth0-charcoal">Sign In</button></a></li>
+        <li>(CURRENTLY UNDER MAINTENANCE) Apache with Social, LDAP and Passwordless options: <a href="https://apache.testrp.security.allizom.org"><button class="btn-auth0 btn-auth0-charcoal">Sign In</button></a></li>
         <li>More to come...</li>
       </ul>
     </div>
