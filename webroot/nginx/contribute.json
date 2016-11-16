@@ -5,6 +5,22 @@
     "url": "https://github.com/mozilla-iam/testrp.security.allizom.org",
     "license": "MPL2"
   },
+  "participate": {
+     "irc": "irc://irc.mozilla.org/#infosec",
+     "irc-contacts": [
+       "nobody"
+     ]
+  },
+  "bugs": {
+    "report": "https://github.com/mozilla-iam/testrp.security.allizom.org/issues"
+  },
+  "urls": {
+    "main": "https://testrp.security.allizom.org",
+    "apache": "https://apache.testrp.security.allizom.org",
+    "nginx1": "https://social-ldap-pwless.testrp.security.allizom.org",
+    "nginx2": "https://ldap-pwless.testrp.security.allizom.org",
+    "nginx3": "https://social-pwless.testrp.security.allizom.org"
+  },
   "keywords": [
     "OIDC",
     "SAML",
