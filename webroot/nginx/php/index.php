@@ -44,10 +44,10 @@
             <h2>Endpoints</h2>
 
             <h3>userinfo</h3>
-            <a href="https://auth-dev.mozilla.auth0.com/userinfo?access_token=<?php echo $_SERVER['HTTP_OIDC_CLAIM_ACCESS_TOKEN'];?>">https://auth-dev.mozilla.auth0.com/userinfo?access_token=<?php echo $_SERVER['HTTP_OIDC_CLAIM_ACCESS_TOKEN'];?></a>
+            <a href="<?php echo $_SERVER['HTTP_OIDC_CLAIM_ID_TOKEN_ISS']; ?>userinfo?access_token=<?php echo $_SERVER['HTTP_OIDC_CLAIM_ACCESS_TOKEN'];?>"><?php echo $_SERVER['HTTP_OIDC_CLAIM_ID_TOKEN_ISS']; ?>userinfo?access_token=<?php echo $_SERVER['HTTP_OIDC_CLAIM_ACCESS_TOKEN'];?></a>
 
             <h3>tokeninfo</h3>
-            <a href="https://auth-dev.mozilla.auth0.com/tokeninfo?id_token=<?php echo $_SERVER['HTTP_OIDC_CLAIM_ID_TOKEN'];?>">https://auth-dev.mozilla.auth0.com/tokeninfo?id_token=<?php echo $_SERVER['HTTP_OIDC_CLAIM_ID_TOKEN'];?></a>
+            <a href="<?php echo $_SERVER['HTTP_OIDC_CLAIM_ID_TOKEN_ISS']; ?>tokeninfo?id_token=<?php echo $_SERVER['HTTP_OIDC_CLAIM_ID_TOKEN'];?>"><?php echo $_SERVER['HTTP_OIDC_CLAIM_ID_TOKEN_ISS']; ?>tokeninfo?id_token=<?php echo $_SERVER['HTTP_OIDC_CLAIM_ID_TOKEN'];?></a>
         </div>
     </body>
 </html>
