@@ -7,7 +7,8 @@ opts = {
   scope = "openid email profile",
   iat_slack = 600,
   redirect_uri_scheme = "https",
-  logout_path = "/logout"
+  logout_path = "/logout",
+  redirect_after_logout_uri = "https://testrp.security.allizom.org/?uri=https://social-ldap-pwless.testrp.security.allizom.org/"
 }
 -- Auth0 delegation endpoint
 delegation_endpoint = "https://auth-dev.mozilla.auth0.com/delegation"
