@@ -87,6 +87,7 @@ end
 ngx.req.set_header("REMOTE_USER", session.data.id_token.user_id)
 ngx.req.set_header("OIDC_CLAIM_ACCESS_TOKEN", session.data.access_token)
 ngx.req.set_header("OIDC_CLAIM_ID_TOKEN", session.data.enc_id_token)
+ngx.req.set_header("via",session.data.id_token.email)
 
 local function build_headers(t, name)
   for k,v in pairs(t) do
