@@ -1,0 +1,65 @@
+.btn-auth0 {
+    border: none;
+    border-radius: .25em;
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Open Sans", sans-serif;
+    font-size: 16px;
+    margin: .25em .125em;
+    padding: .625em 1.25em;
+    text-align: center;
+    text-decoration: none;
+    transition-duration: 0.4s; /* hover timer */
+    -webkit-transition-duration: 0.4s; /* Safari hover */
+}
+
+.btn-auth0-lg {
+    font-size: 1.5em;
+    padding: .6em 1.3333em;
+}
+
+.btn-auth0-shadow {
+    box-shadow: 0 .25em .5em 0 rgba(0,0,0,0.2), 0 .125em .3125em 0 rgba(0,0,0,0.19);
+}
+
+.btn-auth0-wide {
+    width: 18em;  /* 288 px */
+}
+
+.btn-auth0-charcoal,
+.btn-auth0-charcoal.disabled:hover,
+.btn-auth0-charcoal[disabled]:hover {
+    background-color: #4D4E53; /* Charcoal */
+}
+
+.btn-auth0-charcoal:hover {
+    background-color: #7A7C85; /* Charcoal - Light */
+}
+
+.btn-auth0-red,
+.btn-auth0-red.disabled:hover,
+.btn-auth0-red[disabled]:hover {
+    background-color: #C13832; /* Red */
+}
+
+.btn-auth0-red:hover {
+    background-color: #EA3B28 /* Red - Light */
+}
+
+.btn-auth0-sandstone,
+.btn-auth0-sandstone.disabled:hover,
+.btn-auth0-sandstone[disabled]:hover {
+    background-color: #D7D3C8; /* Sand */
+    color: black;
+}
+
+.btn-auth0-sandstone:hover {
+    background-color: #F6F4EC; /* Sand - Light */
+}
+
+.btn-auth0.disabled, .btn-auth0[disabled] {
+    box-shadow: none;
+    cursor: not-allowed;
+    opacity: .65;
+}
