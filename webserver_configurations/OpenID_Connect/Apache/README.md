@@ -21,24 +21,39 @@ Example:
 $ sudo yum install epel-release
 $ sudo yum install mod_auth_openid
 
-# On Ubuntu
+# On Ubuntu 14.10 and newer
 $ sudo apt-get install libapache2-mod-auth-openidc
 ```
 
-Ensure the module is loaded in [Apache configuration] (https://httpd.apache.org/).
+On Ubuntu 14.04 and older :
+* Install `libhiredis0.10`
+  * `sudo apt-get install libhiredis0.10`
+* Download both the `libapache2-mod-auth-openidc` and `libcjose0` deb packages from the [github releases](https://github.com/pingidentity/mod_auth_openidc/releases)
+* Install `libcjose0`
+  * `sudo apt-get install libcjose0*.deb`
+* Install `libapache2-mod-auth-openidc`
+  * `sudo apt-get install libapache2-mod-auth-openidc*.deb`
+
+Ensure the module is loaded in [Apache configuration](https://httpd.apache.org/).
+
+### Enable the module
+
+Under Ubuntu
+
+    a2enmod auth_openidc
 
 ### Configure HTTPS
 
-Ensure that your webserver uses HTTPS and a [valid certificate] (https://letsencrypt.org/ "Let's Encrypt").
-It's also a good time to follow the [Web Security Guidelines] (https://wiki.mozilla.org/Security/Guidelines/Web_Security) and the [Service Side TLS Guidelines] (https://wiki.mozilla.org/Security/Server_Side_TLS) if you haven't.
+Ensure that your webserver uses HTTPS and a [valid certificate](https://letsencrypt.org/ "Let's Encrypt").
+It's also a good time to follow the [Web Security Guidelines](https://wiki.mozilla.org/Security/Guidelines/Web_Security) and the [Service Side TLS Guidelines](https://wiki.mozilla.org/Security/Server_Side_TLS) if you haven't.
 
 ### Configure Apache httpd and mod-auth-openidc
 
-By default, your configuration will live in `/etc/httpd/conf.d/your-vhost.conf`.
+By default, your configuration will live in `/etc/httpd/conf.d/your-vhost.conf` or `/etc/apache2/conf.d/your-vhost.conf`.
 
-Follow the examples at https://github.com/mozilla-iam/testrp.security.allizom.org/tree/master/webserver_configurations/OpenID_Connect/Apache to configure Apache and the mod-auth-openidc module.
+Follow the [example `conf` files](https://github.com/mozilla-iam/testrp.security.allizom.org/tree/master/webserver_configurations/OpenID_Connect/Apache) to configure Apache and the mod-auth-openidc module (for example [`default-oidc.conf`](https://github.com/mozilla-iam/testrp.security.allizom.org/blob/master/webserver_configurations/OpenID_Connect/Apache/default-oidc.conf)).
 
-In particular, the Lua module configuration ensure that you follow the [OpenID Connect Guidelines] (https://wiki.mozilla.org/Security/Guidelines/OpenID_Connect) regarding session handling and expiration.
+In particular, the Lua module configuration ensures that you follow the [OpenID Connect Guidelines](https://wiki.mozilla.org/Security/Guidelines/OpenID_Connect) regarding session handling and expiration.
 
 Available headers for your web application will look like:
 
