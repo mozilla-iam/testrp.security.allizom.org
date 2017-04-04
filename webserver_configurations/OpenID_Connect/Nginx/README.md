@@ -13,7 +13,18 @@ We're currently using the later (https://github.com/mozilla-iam/lua-resty-openid
 
 First, install OpenResty (which is Nginx with Lua support) by following the documentation at https://openresty.org/en/linux-packages.html
 
-Then, you'll want to install the lua-resty-openidc module. The easiest is to use luarocks:
+Then, you'll want to install the lua-resty-openidc module. The easiest is to use luarocks but that won't get you delegation/session support:
+
+#### If you choose to use Mozilla's version of the module (recommended)
+
+```
+$ wget https://github.com/mozilla-iam/lua-resty-openidc/blob/master/lib/resty/openidc.lua
+$ sudo mv openidc.lua /usr/local/openresty/site/lualib/resty/
+```
+
+#### If you choose to use the upstream module (not recommended)
+
+**Note**: Do **NOT** do this if you already installed Mozilla's version of the module above. Skip this section.
 
 ```
 # For CentOS
@@ -26,14 +37,7 @@ $ sudo apt-get install luarocks
 $ sudo luarocks install lua-resty-openidc
 ```
 
-**Note**: In order to use our fork (https://github.com/mozilla-iam/lua-resty-openidc - you'll need it to use our configs) without building a Lua rock:
-
-```
-$ wget https://github.com/mozilla-iam/lua-resty-openidc/blob/master/lib/resty/openidc.lua
-$ sudo mv openidc.lua /usr/local/openresty/site/lualib/resty/
-```
-
-### Configure HTTPS
+### Configure HTTPS (you may skip this step if you have already done so yourself)
 
 Ensure that your webserver uses HTTPS and a [valid certificate] (https://letsencrypt.org/ "Let's Encrypt").
 It's also a good time to follow the [Web Security Guidelines] (https://wiki.mozilla.org/Security/Guidelines/Web_Security) and the [Service Side TLS Guidelines] (https://wiki.mozilla.org/Security/Server_Side_TLS) if you haven't.
@@ -54,8 +58,68 @@ You can then auto-renew with a crontab such as (every sunday, it checks and rene
 ### Configure Nginx (OpenResty)
 
 By default, your configuration will live in `/usr/local/openresty/nginx/conf/`
-Follow the examples at https://github.com/mozilla-iam/testrp.security.allizom.org/tree/master/webserver_configurations/OpenID_Connect/Nginx to configure Nginx and the Lua module.
+Full real-world examples are available at https://github.com/mozilla-iam/testrp.security.allizom.org/tree/master/webserver_configurations/OpenID_Connect/Nginx to configure Nginx and the Lua module.
 In particular, the Lua module configuration ensure that you follow the [OpenID Connect Guidelines] (https://wiki.mozilla.org/Security/Guidelines/OpenID_Connect) regarding session handling and expiration.
+
+#### Setup
+If you would to quickly copy-paste the setup instead of reading through above complete examples, fill in your configurations with the following:
+
+**OpenIDC Layer**
+This is your `openidc_layer.lua` - a shim that adds functionality to the openidc library.
+Put it where you want it, but usually in the nginx configuration directory, such as `/etc/nginx/openidc_layer.lua` or `/usr/local/openresty/nginx/conf/openidc_layer.lua` for example
+You can and perhaps should customize this file to pass the headers you want instead of the default.
+You can also do some access control in there if you wish.
+
+Since it's a big file that you don't need to copy-paste, just get it from GitHub.
+
+```
+$ wget https://github.com/mozilla-iam/testrp.security.allizom.org/blob/master/webserver_configurations/OpenID_Connect/Nginx/conf.d/openidc_layer.lua
+$ sudo mv openidc_layer.lua /usr/local/openresty/nginx/conf/
+```
+
+You can now setup the rest of Nginx:
+
+```
+# This goes in your main nginx configuration
+http {
+    # The Lua package path is important, and must match your installation/setup.
+    # If you get any issue with packages not found in your error logs ("require" failures), add the missing path here.
+    lua_package_path '~/lua/?.lua;/usr/share/lua/5.1/?.lua;;';
+    lua_package_cpath '/usr/share/lua/5.1/?.so;/usr/lib64/lua/5.1/?.so;;';
+
+    lua_ssl_trusted_certificate "/etc/ssl/certs/ca-bundle.crt";
+    lua_ssl_verify_depth 5;
+    lua_shared_dict discovery 1m;
+    lua_shared_dict introspection 15m;
+    lua_shared_dict sessions 10m;
+}
+```
+
+```
+# This goes in your server / vhost for nginx, which may be a separate file depending on your setup
+server {
+  # "cookie" session storage won't work as cookies will be >4k, which then will be truncated and fail decoding
+  set $session_storage shm;
+  set $session_cookie_persistent on;
+  set $session_cookie_path "/";
+  # SSI check must be off or Nginx will kill our sessions when using lua-resty-session (which we do use)
+  set $session_check_ssi off;
+  set $session_secret "YOUR SESSION SECRET TGOES HERE"; #Output of openssl rand -hex 32 for example (must be 32 characters)
+
+  # Where your OIDC config is
+  set $config_loader "YOUR CONFIGURATION GOES HERE.lua";
+
+  # Loads our shim/layer for openidc
+  # It's not directly in openidc.lua library as it has a special handling of the non-RFC /delegate endpoint
+  location / {
+    # ENSURE THIS IS WHERE YOUR openidc_layer.lua IS STORED
+    access_by_lua_file 'conf/openidc_layer.lua';
+  }
+}
+
+```
+
+#### Headers sample
 
 Available headers for your web application will look like:
 
