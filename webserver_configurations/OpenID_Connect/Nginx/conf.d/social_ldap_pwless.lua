@@ -8,9 +8,6 @@ opts = {
   iat_slack = 600,
   redirect_uri_scheme = "https",
   logout_path = "/logout",
-  redirect_after_logout_uri = "https://testrp.security.allizom.org/?uri=https://social-ldap-pwless.testrp.security.allizom.org/"
+  redirect_after_logout_uri = "https://testrp.security.allizom.org/?uri=https://social-ldap-pwless.testrp.security.allizom.org/",
+  refresh_session_interval = 900
 }
--- Auth0 delegation endpoint
-delegation_endpoint = "https://auth-dev.mozilla.auth0.com/delegation"
--- How often to renew the id_token in seconds (i.e. when disabled, blocked users will be logged out)
-id_token_renew_delay = 900

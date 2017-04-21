@@ -13,7 +13,7 @@ We're currently using the later (https://github.com/mozilla-iam/lua-resty-openid
 
 First, install OpenResty (which is Nginx with Lua support) by following the documentation at https://openresty.org/en/linux-packages.html
 
-Then, you'll want to install the lua-resty-openidc module. The easiest is to use luarocks but that won't get you delegation/session support:
+Then, you'll want to install the lua-resty-openidc module. The easiest is to use luarocks but that won't get you session refresh support:
 
 #### If you choose to use Mozilla's version of the module (recommended)
 
@@ -110,7 +110,6 @@ server {
   set $config_loader "YOUR CONFIGURATION GOES HERE.lua";
 
   # Loads our shim/layer for openidc
-  # It's not directly in openidc.lua library as it has a special handling of the non-RFC /delegate endpoint
   location / {
     # ENSURE THIS IS WHERE YOUR openidc_layer.lua IS STORED
     access_by_lua_file 'conf/openidc_layer.lua';
