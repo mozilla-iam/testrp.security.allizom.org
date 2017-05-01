@@ -158,4 +158,4 @@ HTTP_OIDC_CLAIM_USER_PROFILE_NAME:testuser@mozilla.com
 HTTP_OIDC_CLAIM_USER_PROFILE_BLOCKED:false
 ```
 
-NOTE: Depending on your setup, you may not have headers prepended by 'HTTP_' - in this case, 'HTTP_OIDC_CLAIM_ID_TOKEN' would look like 'OIDC_CLAIM_ID_TOKEN' instead.
+NOTE: Depending on your setup, you may not have headers prepended by `HTTP_` - in this case, `HTTP_OIDC_CLAIM_ID_TOKEN` would look like `OIDC_CLAIM_ID_TOKEN` instead.
