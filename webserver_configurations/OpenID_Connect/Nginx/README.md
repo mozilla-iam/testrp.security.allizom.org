@@ -28,8 +28,8 @@ $ sudo luarocks install lua-resty-openidc
 
 ### Configure HTTPS (you may skip this step if you have already done so yourself)
 
-Ensure that your webserver uses HTTPS and a [valid certificate] (https://letsencrypt.org/ "Let's Encrypt").
-It's also a good time to follow the [Web Security Guidelines] (https://wiki.mozilla.org/Security/Guidelines/Web_Security) and the [Service Side TLS Guidelines] (https://wiki.mozilla.org/Security/Server_Side_TLS) if you haven't.
+Ensure that your webserver uses HTTPS and a [valid certificate](https://letsencrypt.org/ "Let's Encrypt").
+It's also a good time to follow the [Web Security Guidelines](https://wiki.mozilla.org/Security/Guidelines/Web_Security) and the [Service Side TLS Guidelines](https://wiki.mozilla.org/Security/Server_Side_TLS) if you haven't.
 
 **Note**: we're using letsencrypt in this setup, which uses a centralized well-known directory. This allows to renew all domains with a set of similar commands per domain or group of domains:
 
@@ -48,7 +48,7 @@ You can then auto-renew with a crontab such as (every sunday, it checks and rene
 
 By default, your configuration will live in `/usr/local/openresty/nginx/conf/`
 Full real-world examples are available at https://github.com/mozilla-iam/testrp.security.allizom.org/tree/master/webserver_configurations/OpenID_Connect/Nginx to configure Nginx and the Lua module.
-In particular, the Lua module configuration ensure that you follow the [OpenID Connect Guidelines] (https://wiki.mozilla.org/Security/Guidelines/OpenID_Connect) regarding session handling and expiration.
+In particular, the Lua module configuration ensure that you follow the [OpenID Connect Guidelines](https://wiki.mozilla.org/Security/Guidelines/OpenID_Connect) regarding session handling and expiration.
 
 #### Setup
 If you would to quickly copy-paste the setup instead of reading through above complete examples, fill in your configurations with the following:
