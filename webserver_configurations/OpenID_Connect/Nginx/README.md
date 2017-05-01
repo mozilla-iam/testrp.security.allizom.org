@@ -3,9 +3,7 @@
 This module adds OpenID Connect (OIDC) support for Nginx.
 It let you easily front any Location with an OIDC login page.
 
-Sources and package releases for most recent versions of lua-resty-openidc module can be found at:
-https://github.com/pingidentity/mod_auth_openidc and https://github.com/mozilla-iam/lua-resty-openidc
-We're currently using the later (https://github.com/mozilla-iam/lua-resty-openidc).
+Sources and package releases for most recent versions of lua-resty-openidc module can be found at https://github.com/pingidentity/lua-resty-openidc
 
 ## Install
 
@@ -13,18 +11,9 @@ We're currently using the later (https://github.com/mozilla-iam/lua-resty-openid
 
 First, install OpenResty (which is Nginx with Lua support) by following the documentation at https://openresty.org/en/linux-packages.html
 
-Then, you'll want to install the lua-resty-openidc module. The easiest is to use luarocks but that won't get you session refresh support:
+Then, you'll want to install the lua-resty-openidc module. The easiest is to use luarocks.
 
-#### If you choose to use Mozilla's version of the module (recommended)
-
-```
-$ wget https://github.com/mozilla-iam/lua-resty-openidc/blob/master/lib/resty/openidc.lua
-$ sudo mv openidc.lua /usr/local/openresty/site/lualib/resty/
-```
-
-#### If you choose to use the upstream module (not recommended)
-
-**Note**: Do **NOT** do this if you already installed Mozilla's version of the module above. Skip this section.
+#### Install with luarocks (lua-resty-openidc 1.3.2 and above to have session refresh support)
 
 ```
 # For CentOS
