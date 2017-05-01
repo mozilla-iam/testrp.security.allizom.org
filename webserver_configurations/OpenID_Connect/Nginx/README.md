@@ -18,7 +18,7 @@ Then, you'll want to install the lua-resty-openidc module. The easiest is to use
 ```
 # For CentOS
 $ sudo yum install epel-release
-$ sudo yum install luarocks
+$ sudo yum install luarocks openssl-devel lua-devel
 $ sudo luarocks install lua-resty-openidc
 
 # For Ubuntu
