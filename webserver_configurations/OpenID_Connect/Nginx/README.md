@@ -3,17 +3,23 @@
 This module adds OpenID Connect (OIDC) support for Nginx.
 It let you easily front any Location with an OIDC login page.
 
-Sources and package releases for most recent versions of lua-resty-openidc module can be found at https://github.com/pingidentity/lua-resty-openidc
+Sources and package releases for most recent versions of lua-resty-openidc 
+module can be found at https://github.com/pingidentity/lua-resty-openidc
 
 ## Install
 
 ### Install OpenResty and the modules
 
-First, install OpenResty (which is Nginx with Lua support) by following the documentation at https://openresty.org/en/linux-packages.html
+First, install OpenResty (which is Nginx with Lua support) by following the 
+documentation at https://openresty.org/en/linux-packages.html
 
-Then, you'll want to install the lua-resty-openidc module. The easiest is to use luarocks.
+Then, you'll want to install the lua-resty-openidc module. The easiest is to
+use luarocks.
 
-#### Install with luarocks (lua-resty-openidc 1.3.2 and above to have session refresh support)
+#### Install lua-resty-openidc with luarocks
+
+You will need lua-resty-openidc version 1.3.2 and above in order to have
+session refresh support.
 
 ```
 # For CentOS
@@ -26,12 +32,20 @@ $ sudo apt-get install luarocks
 $ sudo luarocks install lua-resty-openidc
 ```
 
-### Configure HTTPS (you may skip this step if you have already done so yourself)
+### Configure HTTPS
 
-Ensure that your webserver uses HTTPS and a [valid certificate](https://letsencrypt.org/ "Let's Encrypt").
-It's also a good time to follow the [Web Security Guidelines](https://wiki.mozilla.org/Security/Guidelines/Web_Security) and the [Service Side TLS Guidelines](https://wiki.mozilla.org/Security/Server_Side_TLS) if you haven't.
+You may skip this step if you have already setup HTTPS.
 
-**Note**: we're using letsencrypt in this setup, which uses a centralized well-known directory. This allows to renew all domains with a set of similar commands per domain or group of domains:
+Ensure that your webserver uses HTTPS and has a
+[valid certificate](https://letsencrypt.org/ "Let's Encrypt").
+This would also be a good time to follow the
+[Web Security Guidelines](https://wiki.mozilla.org/Security/Guidelines/Web_Security)
+and the [Service Side TLS Guidelines](https://wiki.mozilla.org/Security/Server_Side_TLS)
+if you haven't.
+
+**Note**: We're using letsencrypt in this setup, which uses a centralized
+well-known directory. This allows you to renew all domains with a set of
+similar commands per domain or group of domains:
 
 ```
 $ certbot certonly --webroot -w /var/www/well-known -d "testrp.security.allizom.org"
@@ -39,7 +53,8 @@ $ certbot certonly --webroot -w /var/www/well-known -d "social-ldap-pwless.testr
 ...
 ```
 
-You can then auto-renew with a crontab such as (every sunday, it checks and renew if needed):
+You can then auto-renew with a crontab such as (every sunday, it checks and
+renews if needed):
 ```
 0 0 * * 0    certbot renew --quiet --no-self-upgrade
 ```
@@ -47,32 +62,62 @@ You can then auto-renew with a crontab such as (every sunday, it checks and rene
 ### Configure Nginx (OpenResty)
 
 By default, your configuration will live in `/usr/local/openresty/nginx/conf/`
-Full real-world examples are available at https://github.com/mozilla-iam/testrp.security.allizom.org/tree/master/webserver_configurations/OpenID_Connect/Nginx to configure Nginx and the Lua module.
-In particular, the Lua module configuration ensure that you follow the [OpenID Connect Guidelines](https://wiki.mozilla.org/Security/Guidelines/OpenID_Connect) regarding session handling and expiration.
+Full real-world examples are available
+[in this directory](https://github.com/mozilla-iam/testrp.security.allizom.org/tree/master/webserver_configurations/OpenID_Connect/Nginx) to configure
+Nginx and the Lua module.
+
+In particular, the Lua module configuration ensure that you follow the
+[OpenID Connect Guidelines](https://wiki.mozilla.org/Security/Guidelines/OpenID_Connect)
+regarding session handling and expiration.
 
 #### Setup
-If you would to quickly copy-paste the setup instead of reading through above complete examples, fill in your configurations with the following:
+If you would like to quickly copy-paste the setup instead of reading through
+complete examples above, fill in your configurations with the following:
 
-**OpenIDC Layer**
-This is your `openidc_layer.lua` - a shim that adds functionality to the openidc library.
-Put it where you want it, but usually in the nginx configuration directory, such as `/etc/nginx/openidc_layer.lua` or `/usr/local/openresty/nginx/conf/openidc_layer.lua` for example
-You can and perhaps should customize this file to pass the headers you want instead of the default.
-You can also do some access control in there if you wish.
+##### OpenIDC Shim
+[`openidc_layer.lua`](https://github.com/mozilla-iam/testrp.security.allizom.org/blob/master/webserver_configurations/OpenID_Connect/Nginx/conf.d/openidc_layer.lua)
+is a shim that adds functionality to the
+[lua-resty-openidc](https://github.com/pingidentity/lua-resty-openidc) library.
+Put it where you want it, but usually in the nginx configuration directory,
+such as `/etc/nginx/openidc_layer.lua` or
+`/usr/local/openresty/nginx/conf/openidc_layer.lua` for example.
+You can, and should, customize this file to pass the headers you want instead
+of the defaults. You can also do some access control in there if you wish.
 
 Since it's a big file that you don't need to copy-paste, just get it from GitHub.
 
 ```
-$ wget https://github.com/mozilla-iam/testrp.security.allizom.org/blob/master/webserver_configurations/OpenID_Connect/Nginx/conf.d/openidc_layer.lua
+$ wget https://raw.githubusercontent.com/mozilla-iam/testrp.security.allizom.org/master/webserver_configurations/OpenID_Connect/Nginx/conf.d/openidc_layer.lua
 $ sudo mv openidc_layer.lua /usr/local/openresty/nginx/conf/
 ```
 
-You can now setup the rest of Nginx:
+##### Fetch and setup OIDC Lua Config
+
+Fetch a lua config file that sets the lua-resty-openidc options from
+[this repo](https://github.com/mozilla-iam/testrp.security.allizom.org/blob/master/webserver_configurations/OpenID_Connect/Nginx/conf.d/social_ldap_pwless.lua)
+
+```
+$ wget https://raw.githubusercontent.com/mozilla-iam/testrp.security.allizom.org/master/webserver_configurations/OpenID_Connect/Nginx/conf.d/social_ldap_pwless.lua
+$ sudo mv social_ldap_pwless.lua /usr/local/openresty/nginx/conf/
+```
+
+Next, modify this file by updating these values
+* `client_id` : value that's been issued to you by the SSO provider 
+* `client_secret` : value that's been issued to you by the SSO provider 
+* `redirect_after_logout_uri` : URL to send the user to after logout
+
+
+##### Update nginx.conf
+
+You can now setup the rest of Nginx. First add this to your
+`/usr/local/openresty/nginx/conf/nginx.conf` configuration file, in the `http` section.
 
 ```
 # This goes in your main nginx configuration
 http {
     # The Lua package path is important, and must match your installation/setup.
-    # If you get any issue with packages not found in your error logs ("require" failures), add the missing path here.
+    # If you get any issue with packages not found in your error logs ("require" failures),
+    # add the missing path here.
     lua_package_path '~/lua/?.lua;/usr/share/lua/5.1/?.lua;;';
     lua_package_cpath '/usr/share/lua/5.1/?.so;/usr/lib64/lua/5.1/?.so;;';
 
@@ -84,24 +129,35 @@ http {
 }
 ```
 
+Next add this to the `server` section
+
 ```
-# This goes in your server / vhost for nginx, which may be a separate file depending on your setup
+# This goes in your server / vhost for nginx, which may be a separate file
+# depending on your setup
 server {
-  # "cookie" session storage won't work as cookies will be >4k, which then will be truncated and fail decoding
+  # "cookie" session storage won't work as cookies will be >4k, which then will be
+  # truncated and fail decoding
   set $session_storage shm;
   set $session_cookie_persistent on;
   set $session_cookie_path "/";
-  # SSI check must be off or Nginx will kill our sessions when using lua-resty-session (which we do use)
+
+  # SSI check must be off or Nginx will kill our sessions when using lua-resty-session
+  # (which we do use)
   set $session_check_ssi off;
-  set $session_secret "YOUR SESSION SECRET TGOES HERE"; #Output of openssl rand -hex 32 for example (must be 32 characters)
+
+  # $session_secret : Output of `openssl rand -base64 32` for example 
+  # (must be 32 characters)
+  set $session_secret "YOUR SESSION SECRET GOES HERE"; 
 
   # Where your OIDC config is
+  # Example :
+  # set $config_loader "/usr/local/openresty/nginx/conf/social_ldap_pwless.lua";
   set $config_loader "YOUR CONFIGURATION GOES HERE.lua";
 
   # Loads our shim/layer for openidc
   location / {
     # ENSURE THIS IS WHERE YOUR openidc_layer.lua IS STORED
-    access_by_lua_file 'conf/openidc_layer.lua';
+    access_by_lua_file '/usr/local/openresty/nginx/conf/openidc_layer.lua';
   }
 }
 
@@ -158,4 +214,5 @@ HTTP_OIDC_CLAIM_USER_PROFILE_NAME:testuser@mozilla.com
 HTTP_OIDC_CLAIM_USER_PROFILE_BLOCKED:false
 ```
 
-NOTE: Depending on your setup, you may not have headers prepended by `HTTP_` - in this case, `HTTP_OIDC_CLAIM_ID_TOKEN` would look like `OIDC_CLAIM_ID_TOKEN` instead.
+NOTE: Depending on your setup, you may not have headers prepended by `HTTP_`.
+In this case, `HTTP_OIDC_CLAIM_ID_TOKEN` would look like `OIDC_CLAIM_ID_TOKEN` instead.
