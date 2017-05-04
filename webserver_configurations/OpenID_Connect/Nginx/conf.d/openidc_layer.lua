@@ -29,11 +29,11 @@ end
 
 -- Set headers with user info and OIDC claims for the underlaying web application to use (this is optional)
 -- These header names are voluntarily similar to Apaches mod_auth_openidc, but may of course be modified
-ngx.req.set_header("REMOTE_USER", session.data.id_token.email)
-ngx.req.set_header("X-Forwarded-User", session.data.id_token.email)
+ngx.req.set_header("REMOTE_USER", session.data.user.email)
+ngx.req.set_header("X-Forwarded-User", session.data.user.email)
 ngx.req.set_header("OIDC_CLAIM_ACCESS_TOKEN", session.data.access_token)
 ngx.req.set_header("OIDC_CLAIM_ID_TOKEN", session.data.enc_id_token)
-ngx.req.set_header("via",session.data.id_token.email)
+ngx.req.set_header("via",session.data.user.email)
 
 local function build_headers(t, name)
   for k,v in pairs(t) do
@@ -51,11 +51,8 @@ build_headers(session.data.id_token, "ID_TOKEN_")
 build_headers(session.data.user, "USER_PROFILE_")
 
 -- Flat groups, useful for some RP's that won't read JSON
-for k,v in pairs(session.data.id_token.groups) do
-  if grps == nil then
-    grps = string.gsub(cjson.encode(v), '"', '')
-  else
-    grps = string.gsub(grps.."|"..cjson.encode(v), '"', '')
-  end
+local gprs = ""
+for k,v in pairs(session.data.user.groups) do
+  grps = grps and grps.."|"..v or v
 end
 ngx.req.set_header("X-Forwarded-Groups", grps)
