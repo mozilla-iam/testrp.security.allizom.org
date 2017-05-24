@@ -22,6 +22,8 @@ if err then
     session:destroy()
   end
   ngx.redirect(opts.logout_path)
+else
+  ngx.log(ngx.ERR, "no error was returned but session is not set. Are you using lua-resty-openidc>=1.3.2?")
 end
 
 -- Access control: only allow specific users in (this is optional, without it all authenticated users are allowed in)
