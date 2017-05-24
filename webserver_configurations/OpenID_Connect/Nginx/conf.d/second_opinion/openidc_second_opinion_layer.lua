@@ -108,8 +108,8 @@ if not ok then
 end
 
 -- Authenticate with the primary OP if necessary
-local res, err, url, session = oidc.authenticate(primary.opts)
-primary.session = session
+local res, err, url
+res, err, url, primary.session= oidc.authenticate(primary.opts)
 
 -- Check if authentication succeeded, otherwise kick the user out
 if err then
@@ -126,8 +126,7 @@ secondary.opts.authorization_params = secondary.opts.authorization_params and se
 secondary.opts.authorization_params.login_hint = primary.session.data.id_token.email
 
 -- Authenticate with the secondary OP if necessary
-local res, err, url, session = oidc.authenticate(secondary.opts, nil, secondary.session_opts)
-secondary.session = session
+res, err, url, secondary.session = oidc.authenticate(secondary.opts, nil, secondary.session_opts)
 
 -- Check if authentication succeeded, otherwise kick the user out
 if err then
@@ -152,8 +151,19 @@ local groups = get_group_intersection(primary.session, secondary.session)
 primary.session.data.user.groups = groups
 primary.session.data.id_token.groups = groups
 
--- Access control: only allow specific users in (this is optional, without it all authenticated users are allowed in)
--- (TODO: add example)
+-- Access control: only allow users that are members of specific groups
+-- to access the site. This is optional as group membership is passed to the
+-- backing service in the HTTP headers and the backing service can govern
+-- access based on that group information.
+
+--local allowed_groups = Set.new({
+--  "MyFirstExampleGroupName",
+--  "MySecondExampleGroupName"
+--})
+--if next(Set.intersection(allowed_groups, Set.new(primary.session.data.user.groups))) == nil then
+--  -- user is not a member of any allowed_groups
+--  ngx.exit(ngx.HTTP_FORBIDDEN)
+--end
 
 -- Set headers with user info and OIDC claims for the underlaying web application to use (this is optional)
 -- These header names are voluntarily similar to Apaches mod_auth_openidc, but may of course be modified
