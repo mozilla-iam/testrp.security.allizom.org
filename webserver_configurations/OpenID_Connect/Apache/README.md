@@ -19,7 +19,7 @@ Example:
 ```
 # On CentOS
 $ sudo yum install epel-release
-$ sudo yum install mod_auth_openid
+$ sudo yum install mod_auth_openidc
 
 # On Ubuntu 14.10 and newer
 $ sudo apt-get install libapache2-mod-auth-openidc
