@@ -54,7 +54,14 @@ build_headers(session.data.user, "USER_PROFILE_")
 
 -- Flat groups, useful for some RP's that won't read JSON
 local gprs = ""
-for k,v in pairs(session.data.user.groups) do
+local usergrp = ""
+if session.data.user.groups then
+    usergrp = session.data.user.groups
+else
+    usergrp = session.data.user['https://sso.mozilla.com/claim/groups']
+end
+
+for k,v in pairs(usergrp) do
   grps = grps and grps.."|"..v or v
 end
 ngx.req.set_header("X-Forwarded-Groups", grps)
