@@ -27,6 +27,6 @@ function getParameterByName(name, url) {
 function displayError() {
     uri=getParameterByName('uri', window.location.href);
     if (uri) {
-        document.getElementById("error").innerHTML = "You were logged out of "+uri;
+        document.getElementById("error").testContent = "You were logged out of "+uri;
     }
 }
