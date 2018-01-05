@@ -54,12 +54,13 @@ build_headers(session.data.user, "USER_PROFILE_")
 local gprs = ""
 local usergrp = ""
 if session.data.user.groups then
-    usergrp = session.data.user.groups
+  usergrp = session.data.user.groups
 else
-    usergrp = session.data.user['https://sso.mozilla.com/claim/groups']
+  usergrp = session.data.user['https://sso.mozilla.com/claim/groups']
 end
-
-for k,v in pairs(usergrp) do
-  grps = grps and grps.."|"..v or v
+if usergrp then
+  for k,v in pairs(usergrp) do
+    grps = grps and grps.."|"..v or v
+  end
+  ngx.req.set_header("X-Forwarded-Groups", grps)
 end
-ngx.req.set_header("X-Forwarded-Groups", grps)
