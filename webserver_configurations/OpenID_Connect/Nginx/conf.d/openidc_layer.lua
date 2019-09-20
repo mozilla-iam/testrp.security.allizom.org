@@ -22,8 +22,6 @@ if err then
     session:destroy()
   end
   ngx.redirect(opts.logout_path)
-else
-  ngx.log(ngx.ERR, "no error was returned but session is not set. A possible cause is that you're using lua-resty-openidc 1.3.1 or earlier which do not have the required features. If lua-resty-openidc 1.3.2 or newer is available, please upgrade. If lua-resty-openidc 1.3.2 has not yet been released, you can find the needed functionality in https://github.com/pingidentity/lua-resty-openidc/commit/7bafac883264ac4d33a8a83da7040a74024ca08f or newer.")
 end
 
 -- Access control: only allow specific users in (this is optional, without it all authenticated users are allowed in)
@@ -56,12 +54,13 @@ build_headers(session.data.user, "USER_PROFILE_")
 local gprs = ""
 local usergrp = ""
 if session.data.user.groups then
-    usergrp = session.data.user.groups
+  usergrp = session.data.user.groups
 else
-    usergrp = session.data.user['https://sso.mozilla.com/claim/groups']
+  usergrp = session.data.user['https://sso.mozilla.com/claim/groups']
 end
-
-for k,v in pairs(usergrp) do
-  grps = grps and grps.."|"..v or v
+if usergrp then
+  for k,v in pairs(usergrp) do
+    grps = grps and grps.."|"..v or v
+  end
+  ngx.req.set_header("X-Forwarded-Groups", grps)
 end
-ngx.req.set_header("X-Forwarded-Groups", grps)
