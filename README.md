@@ -32,7 +32,7 @@ You can see this in action at https://testrp.security.allizom.org/
 
 # Deployment
 
-This is deployed in the `infosec-prod` AWS account in the `us-west-2` region. It can be accessed with the `id_rsa_infosec_us-west-2` EIS shared SSH key in the GPG store.
+This is deployed in the `infosec-dev` AWS account in the `us-west-2` region. It can be accessed with the `id_rsa_infosec_us-west-2` EIS shared SSH key in the GPG store.
 
 ## Accessing the server
 
