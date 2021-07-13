@@ -1,0 +1,94 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: testrp test relying party website used to troubleshoot, monitor and experiment with Mozilla's Single Sign On (SSO) system
+Metadata:
+  Source: https://github.com/mozilla-iam/testrp.security.allizom.org
+  TemplateVersion: 1.0.0
+Mappings:
+  Variables:
+    EC2Instance:
+      ImageId: ami-095fc243363b15e20
+      InstanceType: t2.micro
+Parameters:
+  SSHKeyName:
+    Description: SSH Key Name
+    Type: String
+Resources:
+  TestRPEC2Instance:
+    Type: AWS::EC2::Instance
+    Properties:
+      IamInstanceProfile: !Ref TestRPInstanceProfile
+      ImageId: !FindInMap ["Variables", "EC2Instance", "ImageId"]
+      InstanceType: !FindInMap ["Variables", "EC2Instance", "InstanceType"]
+      KeyName: !Ref SSHKeyName
+      SecurityGroupIds:
+        - !Ref TestRPSecurityGroup
+      Tags:
+        - Key: Name
+          Value: testrp
+        - Key: Source
+          Value: https://github.com/mozilla-iam/testrp.security.allizom.org
+  TestRPIAMRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ec2.amazonaws.com
+            Action:
+              - sts:AssumeRole
+      Tags:
+        - Key: Name
+          Value: testrp
+        - Key: Source
+          Value: https://github.com/mozilla-iam/testrp.security.allizom.org
+  TestRPInstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - !Ref TestRPIAMRole
+  TestRPSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: testrp Security Group allowing ssh, http, https, icmp
+      SecurityGroupIngress:
+        - FromPort: 22
+          IpProtocol: tcp
+          CidrIp: 0.0.0.0/0
+          ToPort: 22
+        - FromPort: 80
+          IpProtocol: tcp
+          CidrIp: 0.0.0.0/0
+          ToPort: 80
+        - FromPort: 443
+          IpProtocol: tcp
+          CidrIp: 0.0.0.0/0
+          ToPort: 443
+        - FromPort: -1
+          IpProtocol: icmp
+          CidrIp: 0.0.0.0/0
+          ToPort: -1
+      Tags:
+        - Key: Name
+          Value: testrp
+        - Key: Source
+          Value: https://github.com/mozilla-iam/testrp.security.allizom.org
+  TestRPEIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      Tags:
+          - Key: Name
+            Value: testrp
+          - Key: Source
+            Value: https://github.com/mozilla-iam/testrp.security.allizom.org
+  TestRPEIPAssociation:
+    Type: AWS::EC2::EIPAssociation
+    Properties:
+      InstanceId: !Ref TestRPEC2Instance
+      EIP: !Ref TestRPEIP
+Outputs:
+  IPAddress:
+    Description: IP address of the testrp instance
+    Value: !GetAtt TestRPEC2Instance.PublicIp
