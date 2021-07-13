@@ -32,13 +32,32 @@ You can see this in action at https://testrp.security.allizom.org/
 
 # Deployment
 
-This is deployed in the `infosec-dev` AWS account in the `us-west-2` region. It can be accessed with the `id_rsa_infosec_us-west-2` EIS shared SSH key in the GPG store.
+This is deployed in the `mozilla-iam` AWS account in the `us-west-2` region. It
+is deployed with the CloudFormation template in this repo which creates
+* The EC2 instance
+* The security group
+* An empty IAM role in case one's needed
+* The elastic IP
+
+The instance can be accessed with the `id_rsa_infosec_us-west-2` EIS shared SSH key in the GPG store.
+
+The CloudFormation template provisions the instance using a custom AMI based on
+CentOS 7. This AMI was created from the live running instance previously in
+the `infosec-dev` account and as a result it has some non public data in the AMI
+(letsencrypt private keys, logs)
 
 ## Accessing the server
 
 `ssh -i ~/.ssh/id_rsa_infosec_us-west-2 centos@testrp.security.allizom.org`
 
-The Route53 records for `testrp.security.allizom.org` and `*.testrp.security.allizom.org` are CNAMEs to the ec2 instance. As a result if the ec2 instance is stopped and started again it will get a new IP and name and these Route53 records will no longer point to the instance.
+The Route53 records for `testrp.security.allizom.org` and `*.testrp.security.allizom.org` 
+are A records which resolve to an Elastic IP (EIP). As a result, the EC2 instance
+will retain it's IP if stopped and started again and the DNS names will continue
+to resolve correctly.
+
+The Route53 zone `security.allizom.org` is hosted in the `infosec-dev` AWS account.
+It would be good if the testrp service was transitioned to something in a zone
+in the `mozilla-iam` AWS account
 
 ## Logs
 
@@ -47,4 +66,5 @@ Logs for the webserver are located in
 `/usr/local/openresty/nginx/logs/error.log`
 `/usr/local/openresty/nginx/logs/access.log`
 
-These logs are not rotated and will eventually fill the 8GB disk.
+These logs are rotated with a manuall provisioned `/etc/logrotate.d/openresty`
+configuration file to prevent them from filling the 8GB disk.
