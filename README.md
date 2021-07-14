@@ -46,6 +46,19 @@ CentOS 7. This AMI was created from the live running instance previously in
 the `infosec-dev` account and as a result it has some non public data in the AMI
 (letsencrypt private keys, logs)
 
+To deploy the CloudFormation template, either upload it to the AWS web console
+or deploy with the awscli, providing the SSH key name that the instance should
+be provisioned with as the one parameter that the template takes.
+
+```bash
+    aws cloudformation create-stack \
+        --stack-name testrp.security.allizom.org \
+        --template-url https://s3.us-west-2.amazonaws.com/public.us-west-2.iam.mozilla.com/testrp/92b69a50c761826ed71d2447912f637c319ea3c0/testrp.92b69a50c761826ed71d2447912f637c319ea3c0.yaml \
+        --capabilities CAPABILITY_IAM \
+        --parameters \
+            ParameterKey=SSHKeyName,ParameterValue='jdoe-key'
+ ```
+
 ## Accessing the server
 
 `ssh -i ~/.ssh/id_rsa_infosec_us-west-2 centos@testrp.security.allizom.org`
@@ -66,5 +79,5 @@ Logs for the webserver are located in
 `/usr/local/openresty/nginx/logs/error.log`
 `/usr/local/openresty/nginx/logs/access.log`
 
-These logs are rotated with a manuall provisioned `/etc/logrotate.d/openresty`
+These logs are rotated with a manually provisioned `/etc/logrotate.d/openresty`
 configuration file to prevent them from filling the 8GB disk.
