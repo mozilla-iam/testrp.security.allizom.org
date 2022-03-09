@@ -81,3 +81,7 @@ Logs for the webserver are located in
 
 These logs are rotated with a manually provisioned `/etc/logrotate.d/openresty`
 configuration file to prevent them from filling the 8GB disk.
+
+## Restarting the web server
+
+You can restart the webserver by running `systemctl restart openresty.service`
