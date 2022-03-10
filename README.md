@@ -39,7 +39,7 @@ is deployed with the CloudFormation template in this repo which creates
 * An empty IAM role in case one's needed
 * The elastic IP
 
-The instance can be accessed with the `id_rsa_infosec_us-west-2` EIS shared SSH key in the GPG store.
+The instance can be accessed with the `websre-20210715` EIS shared SSH key in the password store.
 
 The CloudFormation template provisions the instance using a custom AMI based on
 CentOS 7. This AMI was created from the live running instance previously in
@@ -52,18 +52,29 @@ be provisioned with as the one parameter that the template takes.
 
 ```bash
     aws cloudformation create-stack \
-        --stack-name testrp.security.allizom.org \
-        --template-url https://s3.us-west-2.amazonaws.com/public.us-west-2.iam.mozilla.com/testrp/92b69a50c761826ed71d2447912f637c319ea3c0/testrp.92b69a50c761826ed71d2447912f637c319ea3c0.yaml \
+        --stack-name testrp \
+        --template-body file://cloudformation/testrp.yaml \
         --capabilities CAPABILITY_IAM \
         --parameters \
-            ParameterKey=SSHKeyName,ParameterValue='jdoe-key'
+            ParameterKey=SSHKeyName,ParameterValue='websre-20210715'
+ ```
+
+To update the template use the following command:
+
+```bash
+    aws cloudformation update-stack \
+        --stack-name testrp \
+        --template-body file://cloudformation/testrp.yaml \
+        --capabilities CAPABILITY_IAM \
+        --parameters \
+            ParameterKey=SSHKeyName,ParameterValue='websre-20210715'
  ```
 
 ## Accessing the server
 
-`ssh -i ~/.ssh/id_rsa_infosec_us-west-2 centos@testrp.security.allizom.org`
+`ssh -i ~/.ssh/websre-20210715 centos@testrp.security.allizom.org`
 
-The Route53 records for `testrp.security.allizom.org` and `*.testrp.security.allizom.org` 
+The Route53 records for `testrp.security.allizom.org` and `*.testrp.security.allizom.org`
 are A records which resolve to an Elastic IP (EIP). As a result, the EC2 instance
 will retain it's IP if stopped and started again and the DNS names will continue
 to resolve correctly.
