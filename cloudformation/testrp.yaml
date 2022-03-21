@@ -6,7 +6,7 @@ Metadata:
 Mappings:
   Variables:
     EC2Instance:
-      ImageId: ami-095fc243363b15e20
+      ImageId: ami-0bf7a4804525f5115
       InstanceType: t2.micro
 Parameters:
   SSHKeyName:
